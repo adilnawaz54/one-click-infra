@@ -1,0 +1,5 @@
+---
+# defaults file for elasticsearch_ubuntu
+
+elasticsearch_version: "7.10.0"
+elasticsearch_url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elasticsearch_version }}-amd64.deb"

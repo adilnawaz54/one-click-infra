@@ -1,0 +1,6 @@
+---
+- name: Configuring Elasticsearch
+  hosts: _infra_server
+  become: true
+  roles:
+    - elasticsearch-role
