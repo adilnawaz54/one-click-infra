@@ -6,4 +6,6 @@ filters:
 keyed_groups:
   - key: tags.Role
     prefix: ""  
- 
+compose:
+  elasticsearch_master_ip: "{{ hostvars[groups['_infra_server'][0]].private_ip_address }}"  
+  elasticsearch_replica_ip: "{{ hostvars[groups['_infra_server'][1]].private_ip_address }}"   
