@@ -57,7 +57,7 @@ pipeline {
                 expression { return env.INFRA_ACTION == 'Create' }
             }
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'es-aws-credential']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     dir('one-click-infra/elasticsearch-tf') {
                         sh 'terraform init'
                     }
@@ -70,7 +70,7 @@ pipeline {
                 expression { return env.INFRA_ACTION == 'Create' }
             }
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'es-aws-credential']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     dir('one-click-infra/elasticsearch-tf') {
                         sh 'terraform fmt '
                     }
@@ -83,7 +83,7 @@ pipeline {
                 expression { return env.INFRA_ACTION == 'Create' }
             }
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'es-aws-credential']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     dir('one-click-infra/elasticsearch-tf') {
                         sh 'terraform validate'
                     }
@@ -96,7 +96,7 @@ pipeline {
                 expression { return env.INFRA_ACTION == 'Create' }
             }
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'es-aws-credential']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     dir('one-click-infra/elasticsearch-tf') {
                         sh 'terraform plan'
                     }
@@ -124,7 +124,7 @@ pipeline {
             }
             steps {
                 echo "You have chosen to apply the Terraform changes."
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'es-aws-credential']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     dir('one-click-infra/elasticsearch-tf') {
                         sh 'terraform apply -auto-approve'
                     }
@@ -137,7 +137,7 @@ pipeline {
                 expression { return env.INFRA_ACTION == 'Create' && env.APPLY_CONFIRM == 'Yes' }
             }
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'keypair-01', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'private-ssh-key', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
                     script {
                         sh '''
                             echo "Fetching bastion host ip for proxy from dynamic inventory..."
@@ -162,7 +162,7 @@ pipeline {
             }
             steps {
                 echo "You have chosen to destroy the Terraform infrastructure."
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'es-aws-credential']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
                     dir('one-click-infra/elasticsearch-tf') {
                         sh 'terraform destroy -auto-approve'
                     }
