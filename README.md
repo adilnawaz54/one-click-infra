@@ -1,2 +1,2 @@
 # one-click-infra
-Updated one line
+Deleted one line
